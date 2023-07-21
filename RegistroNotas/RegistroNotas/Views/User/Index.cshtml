@@ -1,0 +1,431 @@
+﻿@model RegistroNotas.Models.ViewModels.UserGeneraView
+@{
+    ViewBag.Title = "Usuarios";
+
+    string userName = Session["User"] as String;
+
+    int idRol = Convert.ToInt32(Session["Role"]);  
+
+}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="@Url.Content("~/Home/Index")">
+            Registro de Notas
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item dropdown">
+                    <span class="nav-link">
+                        Bienvenido, @userName
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Content("~/Auth/Logout")">
+                        Cerrar Sesion
+                        <a />
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container mt-3">
+    <div class="row">
+        <div class="col-md-3">
+            <nav id="sidebar" class="bg-light">
+                <div class="position-sticky">
+                    <div>
+                        <ul class="nav flex-column py-3 px-1">
+
+                            @if (idRol == 2)
+                            {
+                                <li class="nav-item">
+                                    <span class="nav-link text-bg-dark fw-bold">
+                                        ESTUDIANTE
+                                    </span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Ver Notas</a>
+                                </li>
+                            }
+
+                            @if (idRol == 3)
+                            {
+                                <li class="nav-item">
+                                    <span class="nav-link text-bg-dark fw-bold">
+                                        DOCENTE
+                                    </span>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Agregar Notas</a>
+                                </li>
+                            }
+
+                            @if (idRol == 1)
+                            {
+                                <li class="nav-item">
+                                    <span class="nav-link text-bg-dark fw-bold">
+                                        ADMINISTRADOR
+                                    </span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" style="color:black;" href="@Url.Content("~/User/Index")">Usuarios</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" style="color:black;" href="@Url.Content("~/Teacher/Index")">Docentes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" style="color:black;" href="@Url.Content("~/Estudent/Index")">Estudiantes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" style="color:black;" href="@Url.Content("~/Subject/Index")">Materias</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" style="color:black;" href="@Url.Content("~/Course/Index")">Cursos</a>
+                                </li>
+
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="col-md-9">
+            <button type="button" class="btn btn-success mb-5" data-bs-toggle="modal" data-bs-target="#createUser">
+                Crear Nuevo Usuario
+            </button>
+
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Role</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.UserListViews)
+                    {
+                        <tr>
+                            <td>@item.name</td>
+                            <td>
+                                @if (item.id_role == 1)
+                                {
+                                    <span class="badge bg-secondary">Administrador</span>
+                                }
+
+                                @if (item.id_role == 2)
+                                {
+                                    <span class="badge bg-primary">Estudiante</span>
+                                }
+
+                                @if (item.id_role == 3)
+                                {
+                                    <span class="badge bg-success">Profesor</span>
+                                }
+                            </td>
+                            <td>
+                                <button class="btn btn-warning" onclick="viewTeacher(@item.id)">Editar</button>
+                                <button class="btn btn-danger" onclick="deleteTeacher(@item.id)">Eliminar</button>
+                            </td>
+                        </tr>
+                    }
+                <tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+
+<div class="modal fade" id="updateUser" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <input type="text" class="form-control" id="id_update" hidden>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="user" class="form-label">Usuario</label>
+                            <input type="text" class="form-control" id="user_update">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Clave</label>
+                            <input type="password" class="form-control" id="password_update">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="role_id" class="form-label">Rol</label>
+                            <select class="form-select" id="role_id_update">
+                                <option selected value="">-----------</option>
+                                <option value="1">Administrador</option>
+                                <option value="2">Estudiante</option>
+                                <option value="3">Docente</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="estudent_id" class="form-label">Estudiante</label>
+                            <select class="form-select" id="estudent_id_update">
+                                <option selected value="">-----------</option>
+
+                                @foreach (var item in Model.EstudentListViews)
+                                {
+                                    <option value="@item.id">@item.name @item.last_name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="teacher_id" class="form-label">Docente</label>
+                            <select class="form-select" id="teacher_id_update">
+                                <option selected value="">-----------</option>
+
+                                @foreach (var item in Model.TeacherListViews)
+                                {
+                                    <option value="@item.id">@item.name @item.last_name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" id="updateUserSave">Actualizar Usuario</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createUser" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Crear Nuevo Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="user" class="form-label">Usuario</label>
+                            <input type="text" class="form-control" id="user">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Clave</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="role_id" class="form-label">Rol</label>
+                            <select class="form-select" id="role_id">
+                                <option selected value="">-----------</option>
+                                <option value="1">Administrador</option>
+                                <option value="2">Estudiante</option>
+                                <option value="3">Docente</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="estudent_id" class="form-label">Estudiante</label>
+                            <select class="form-select" id="estudent_id">
+                                <option selected value="">-----------</option>
+                                
+                                @foreach (var item in Model.EstudentListViews)
+                                {
+                                    <option value="@item.id">@item.name @item.last_name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="teacher_id" class="form-label">Docente</label>
+                            <select class="form-select" id="teacher_id">
+                                <option selected value="">-----------</option>
+
+                                @foreach (var item in Model.TeacherListViews)
+                                {
+                                    <option value="@item.id">@item.name @item.last_name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" id="saveUser">Guardar Usuario</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+
+            $('#updateUserSave').on('click', function () {
+                let id = $('#id_update').val();
+                let name = $('#user_update').val();
+                let password = $('#password_update').val();
+                let id_role = $('#role_id_update').val();
+                let id_student = $('#estudent_id_update').val();
+                let id_teacher = $('#teacher_id_update').val();
+
+                $.ajax({
+                    url: '@Url.Content("~/User/UpdateUser")',
+                    type: 'POST',
+                    data: {
+id: id,
+                        name: name,
+                        password: password,
+                        id_role: id_role,
+                        id_student: id_student,
+                        id_teacher: id_teacher
+                    },
+                    success: function (response) {
+                                                    if (response.success) {
+                                                        alert(response.message);
+                                                        location.reload();
+                                                    }
+                                                    else {
+                                                        alert(response.message);
+                                                    }
+                                                },
+                    error: function (error) {
+                                                    console.log(error);
+                                                }
+                                            });
+            });
+
+            $('#saveUser').on('click', function () {
+
+                let name = $('#user').val();
+                let password = $('#password').val();    
+                let id_role = $('#role_id').val();
+                let id_student = $('#estudent_id').val();
+                let id_teacher = $('#teacher_id').val();
+
+
+                $.ajax({
+                    url: '@Url.Content("~/User/CreateUser")',
+                    type: 'POST',
+                    data: {
+                        name: name,
+                        password: password,
+                        id_role: id_role,
+                        id_student: id_student,
+                        id_teacher: id_teacher
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            location.reload();
+                        }
+                        else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+
+        const viewTeacher = (id) => {
+
+            $.ajax({
+                url: '@Url.Content("~/User/GetUser")',
+                type: 'POST',
+                data: {
+                    id: id
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $('#id_update').val(response.data.id);
+                        $('#user_update').val(response.data.name);
+                        $('#password_update').val(response.data.password);
+                        $('#role_id_update').val(response.data.id_role);
+                        $('#estudent_id_update').val(response.data.id_student);
+                        $('#teacher_id_update').val(response.data.id_teacher);
+        
+                        $('#updateUser').modal('show');
+                    }
+                    else {
+                        alert(response.message);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+
+        }
+        const deleteTeacher = (id) => {
+
+            let confirmation = confirm("¿Estas seguro de eliminar este usuario?");
+
+            if (confirmation) {
+                $.ajax({
+                    url: '@Url.Content("~/User/DeleteUser")',
+                    type: 'POST',
+                    data: {
+                        id: id
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            location.reload();
+                        }
+                        else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+        }
+    </script>
+}

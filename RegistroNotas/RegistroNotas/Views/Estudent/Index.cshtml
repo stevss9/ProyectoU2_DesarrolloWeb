@@ -1,0 +1,357 @@
+﻿
+@model List<RegistroNotas.Models.ViewModels.EstudentListView>
+@{
+    ViewBag.Title = "Estudiantes";
+
+    string userName = Session["User"] as String;
+
+    int idRol = Convert.ToInt32(Session["Role"]);
+}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="@Url.Content("~/Home/Index")">
+            Registro de Notas
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item dropdown">
+                    <span class="nav-link">
+                        Bienvenido @userName
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Content("~/Auth/Logout")">
+                        Cerrar Sesion
+                        <a />
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container mt-3">
+    <div class="row">
+        <div class="col-md-3">
+            <nav id="sidebar" class="bg-light">
+                <div class="position-sticky">
+                    <div>
+                        <ul class="nav flex-column py-3 px-1">
+
+                            @if (idRol == 2)
+                            {
+                                <li class="nav-item">
+                                    <span class="nav-link text-bg-dark fw-bold">
+                                        ESTUDIANTE
+                                    </span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Ver Notas</a>
+                                </li>
+                            }
+
+                            @if (idRol == 3)
+                            {
+                                <li class="nav-item">
+                                    <span class="nav-link text-bg-dark fw-bold">
+                                        DOCENTE
+                                    </span>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Agregar Notas</a>
+                                </li>
+                            }
+
+                            @if (idRol == 1)
+                            {
+                                <li class="nav-item">
+                                    <span class="nav-link text-bg-dark fw-bold">
+                                        ADMINISTRADOR
+                                    </span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" style="color:black;" href="@Url.Content("~/User/Index")">Usuarios</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" style="color:black;" href="@Url.Content("~/Teacher/Index")">Docentes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" style="color:black;" href="@Url.Content("~/Estudent/Index")">Estudiantes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" style="color:black;" href="@Url.Content("~/Subject/Index")">Materias</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" style="color:black;" href="@Url.Content("~/Course/Index")">Cursos</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="col-md-9">
+            <button type="button" class="btn btn-success mb-5" data-bs-toggle="modal" data-bs-target="#createEstudent">
+                Agregar Nuevo Estudiante
+            </button>
+
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Cedula</th>
+                        <th>Email</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.name</td>
+                            <td>@item.last_name</td>
+                            <td>@item.dni</td>
+                            <td>@item.email</td>
+                            <td>
+                                <button class="btn btn-warning" onclick="viewTeacher(@item.id)">Editar</button>
+                                <button class="btn btn-danger" onclick="deleteTeacher(@item.id)">Eliminar</button>
+                            </td>
+                        </tr>
+                    }
+                <tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+
+<div class="modal fade" id="updateEstudent" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar el Estudiante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="text" class="form-control" id="id_update" hidden>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="name_update" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="name_update">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="lastname_update" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="lastname_update">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="email_update" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email_update">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="dni_update" class="form-label">Cedula</label>
+                            <input type="text" class="form-control" id="dni_update">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" id="saveEstudents">Actualizar el Estudiante</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createEstudent" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Crear Nuevo Estudiante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="lastname" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="lastname">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="dni" class="form-label">Cedula</label>
+                            <input type="text" class="form-control" id="dni">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" id="saveEstudent">Guardar el Estudiante</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+
+            $('#saveEstudents').on('click', function () {
+
+                let id = $('#id_update').val();
+                let name = $('#name_update').val();
+                let lastname = $('#lastname_update').val();
+                let email = $('#email_update').val();
+                let dni = $('#dni_update').val();
+
+                $.ajax({
+                    url: '@Url.Content("~/Estudent/UpdateEstudent")',
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        name: name,
+                        last_name: lastname,
+                        email: email,
+                        dni: dni
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            location.reload();
+                        }
+                        else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+            $('#saveEstudent').on('click', function () {
+
+                let name = $('#name').val();
+                let lastname = $('#lastname').val();
+                let email = $('#email').val();
+                let dni = $('#dni').val();
+
+                $.ajax({
+                    url: '@Url.Content("~/Estudent/CreateEstudent")',
+                    type: 'POST',
+                    data: {
+                        name: name,
+                        last_name: lastname,
+                        email: email,
+                        dni: dni
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            location.reload();
+                        }
+                        else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+
+        const viewTeacher = (id) => {
+
+            $.ajax({
+                url: '@Url.Content("~/Estudent/GetEstudent")',
+                type: 'POST',
+                data: {
+                    id: id
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $('#id_update').val(response.data.id);
+                        $('#name_update').val(response.data.name);
+                        $('#lastname_update').val(response.data.last_name);
+                        $('#email_update').val(response.data.email);
+                        $('#dni_update').val(response.data.dni);
+
+                        $('#updateEstudent').modal('show');
+                    }
+                    else {
+                        alert(response.message);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+
+        }
+        const deleteTeacher = (id) => {
+
+            let confirmation = confirm("¿Estas seguro de eliminar este estudiante?");
+
+            if (confirmation) {
+                $.ajax({
+                    url: '@Url.Content("~/Estudent/DeleteEstudent")',
+                    type: 'POST',
+                    data: {
+                        id: id
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            location.reload();
+                        }
+                        else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+        }
+    </script>
+}

@@ -1,0 +1,564 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="registro_notasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="courses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="id_teacher" Type="int" />
+        </EntityType>
+        <EntityType Name="estudents">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="last_name" Type="varchar" MaxLength="50" />
+          <Property Name="dni" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="notes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="note_1" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="note_2" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="note_3" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="note_4" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="id_student" Type="int" />
+          <Property Name="id_course" Type="int" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="students_has_subjects">
+          <Key>
+            <PropertyRef Name="id_student" />
+            <PropertyRef Name="id_subject" />
+          </Key>
+          <Property Name="id_student" Type="int" Nullable="false" />
+          <Property Name="id_subject" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="subjects">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="description" Type="varchar" MaxLength="100" />
+          <Property Name="id_teacher" Type="int" />
+        </EntityType>
+        <EntityType Name="teachers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="last_name" Type="varchar" MaxLength="50" />
+          <Property Name="specialty" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="password" Type="varchar" MaxLength="50" />
+          <Property Name="id_role" Type="int" />
+          <Property Name="id_student" Type="int" />
+          <Property Name="id_teacher" Type="int" />
+        </EntityType>
+        <Association Name="FK__courses__id_teac__403A8C7D">
+          <End Role="teachers" Type="Self.teachers" Multiplicity="0..1" />
+          <End Role="courses" Type="Self.courses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teachers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="courses">
+              <PropertyRef Name="id_teacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__notes__id_course__440B1D61">
+          <End Role="courses" Type="Self.courses" Multiplicity="0..1" />
+          <End Role="notes" Type="Self.notes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="courses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notes">
+              <PropertyRef Name="id_course" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__notes__id_studen__4316F928">
+          <End Role="estudents" Type="Self.estudents" Multiplicity="0..1" />
+          <End Role="notes" Type="Self.notes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="estudents">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notes">
+              <PropertyRef Name="id_student" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__students___id_st__4BAC3F29">
+          <End Role="estudents" Type="Self.estudents" Multiplicity="1" />
+          <End Role="students_has_subjects" Type="Self.students_has_subjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="estudents">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="students_has_subjects">
+              <PropertyRef Name="id_student" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__students___id_su__4CA06362">
+          <End Role="subjects" Type="Self.subjects" Multiplicity="1" />
+          <End Role="students_has_subjects" Type="Self.students_has_subjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subjects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="students_has_subjects">
+              <PropertyRef Name="id_subject" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__subjects__id_tea__3D5E1FD2">
+          <End Role="teachers" Type="Self.teachers" Multiplicity="0..1" />
+          <End Role="subjects" Type="Self.subjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teachers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="subjects">
+              <PropertyRef Name="id_teacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users__id_role__46E78A0C">
+          <End Role="roles" Type="Self.roles" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users__id_studen__47DBAE45">
+          <End Role="estudents" Type="Self.estudents" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="estudents">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="id_student" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users__id_teache__48CFD27E">
+          <End Role="teachers" Type="Self.teachers" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teachers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="id_teacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="registro_notasModelStoreContainer">
+          <EntitySet Name="courses" EntityType="Self.courses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="estudents" EntityType="Self.estudents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="notes" EntityType="Self.notes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="students_has_subjects" EntityType="Self.students_has_subjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="subjects" EntityType="Self.subjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="teachers" EntityType="Self.teachers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__courses__id_teac__403A8C7D" Association="Self.FK__courses__id_teac__403A8C7D">
+            <End Role="teachers" EntitySet="teachers" />
+            <End Role="courses" EntitySet="courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__notes__id_course__440B1D61" Association="Self.FK__notes__id_course__440B1D61">
+            <End Role="courses" EntitySet="courses" />
+            <End Role="notes" EntitySet="notes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__notes__id_studen__4316F928" Association="Self.FK__notes__id_studen__4316F928">
+            <End Role="estudents" EntitySet="estudents" />
+            <End Role="notes" EntitySet="notes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__students___id_st__4BAC3F29" Association="Self.FK__students___id_st__4BAC3F29">
+            <End Role="estudents" EntitySet="estudents" />
+            <End Role="students_has_subjects" EntitySet="students_has_subjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK__students___id_su__4CA06362" Association="Self.FK__students___id_su__4CA06362">
+            <End Role="subjects" EntitySet="subjects" />
+            <End Role="students_has_subjects" EntitySet="students_has_subjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK__subjects__id_tea__3D5E1FD2" Association="Self.FK__subjects__id_tea__3D5E1FD2">
+            <End Role="teachers" EntitySet="teachers" />
+            <End Role="subjects" EntitySet="subjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users__id_role__46E78A0C" Association="Self.FK__users__id_role__46E78A0C">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users__id_studen__47DBAE45" Association="Self.FK__users__id_studen__47DBAE45">
+            <End Role="estudents" EntitySet="estudents" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users__id_teache__48CFD27E" Association="Self.FK__users__id_teache__48CFD27E">
+            <End Role="teachers" EntitySet="teachers" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="registro_notasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="estudent">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="dni" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="notes" Relationship="registro_notasModel.FK__notes__id_studen__4316F928" FromRole="estudent" ToRole="note" />
+          <NavigationProperty Name="users" Relationship="registro_notasModel.FK__users__id_studen__47DBAE45" FromRole="estudent" ToRole="user" />
+          <NavigationProperty Name="subjects" Relationship="registro_notasModel.students_has_subjects" FromRole="estudent" ToRole="subject" />
+          </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="users" Relationship="registro_notasModel.FK__users__id_role__46E78A0C" FromRole="role" ToRole="user" />
+        </EntityType>
+        <EntityContainer Name="registro_notasEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="estudents" EntityType="Self.estudent" />
+          <EntitySet Name="roles" EntityType="Self.role" />
+          <EntitySet Name="courses" EntityType="registro_notasModel.cours" />
+          <EntitySet Name="notes" EntityType="registro_notasModel.note" />
+          <EntitySet Name="subjects" EntityType="registro_notasModel.subject" />
+          <EntitySet Name="teachers" EntityType="registro_notasModel.teacher" />
+          <EntitySet Name="users" EntityType="registro_notasModel.user" />
+          <AssociationSet Name="FK__courses__id_teac__403A8C7D" Association="registro_notasModel.FK__courses__id_teac__403A8C7D">
+            <End Role="teacher" EntitySet="teachers" />
+            <End Role="cours" EntitySet="courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__notes__id_course__440B1D61" Association="registro_notasModel.FK__notes__id_course__440B1D61">
+            <End Role="cours" EntitySet="courses" />
+            <End Role="note" EntitySet="notes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__notes__id_studen__4316F928" Association="registro_notasModel.FK__notes__id_studen__4316F928">
+            <End Role="estudent" EntitySet="estudents" />
+            <End Role="note" EntitySet="notes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users__id_studen__47DBAE45" Association="registro_notasModel.FK__users__id_studen__47DBAE45">
+            <End Role="estudent" EntitySet="estudents" />
+            <End Role="user" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users__id_role__46E78A0C" Association="registro_notasModel.FK__users__id_role__46E78A0C">
+            <End Role="role" EntitySet="roles" />
+            <End Role="user" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__subjects__id_tea__3D5E1FD2" Association="registro_notasModel.FK__subjects__id_tea__3D5E1FD2">
+            <End Role="teacher" EntitySet="teachers" />
+            <End Role="subject" EntitySet="subjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users__id_teache__48CFD27E" Association="registro_notasModel.FK__users__id_teache__48CFD27E">
+            <End Role="teacher" EntitySet="teachers" />
+            <End Role="user" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="students_has_subjects" Association="registro_notasModel.students_has_subjects">
+            <End Role="estudent" EntitySet="estudents" />
+            <End Role="subject" EntitySet="subjects" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="cours">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_teacher" Type="Int32" />
+          <NavigationProperty Name="teacher" Relationship="registro_notasModel.FK__courses__id_teac__403A8C7D" FromRole="cours" ToRole="teacher" />
+          <NavigationProperty Name="notes" Relationship="registro_notasModel.FK__notes__id_course__440B1D61" FromRole="cours" ToRole="note" />
+        </EntityType>
+        <EntityType Name="note">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="note_1" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="note_2" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="note_3" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="note_4" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="id_student" Type="Int32" />
+          <Property Name="id_course" Type="Int32" />
+          <NavigationProperty Name="cours" Relationship="registro_notasModel.FK__notes__id_course__440B1D61" FromRole="note" ToRole="cours" />
+          <NavigationProperty Name="estudent" Relationship="registro_notasModel.FK__notes__id_studen__4316F928" FromRole="note" ToRole="estudent" />
+        </EntityType>
+        <EntityType Name="subject">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="id_teacher" Type="Int32" />
+          <NavigationProperty Name="teacher" Relationship="registro_notasModel.FK__subjects__id_tea__3D5E1FD2" FromRole="subject" ToRole="teacher" />
+          <NavigationProperty Name="estudents" Relationship="registro_notasModel.students_has_subjects" FromRole="subject" ToRole="estudent" />
+        </EntityType>
+        <EntityType Name="teacher">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="specialty" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="courses" Relationship="registro_notasModel.FK__courses__id_teac__403A8C7D" FromRole="teacher" ToRole="cours" />
+          <NavigationProperty Name="subjects" Relationship="registro_notasModel.FK__subjects__id_tea__3D5E1FD2" FromRole="teacher" ToRole="subject" />
+          <NavigationProperty Name="users" Relationship="registro_notasModel.FK__users__id_teache__48CFD27E" FromRole="teacher" ToRole="user" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_role" Type="Int32" />
+          <Property Name="id_student" Type="Int32" />
+          <Property Name="id_teacher" Type="Int32" />
+          <NavigationProperty Name="estudent" Relationship="registro_notasModel.FK__users__id_studen__47DBAE45" FromRole="user" ToRole="estudent" />
+          <NavigationProperty Name="role" Relationship="registro_notasModel.FK__users__id_role__46E78A0C" FromRole="user" ToRole="role" />
+          <NavigationProperty Name="teacher" Relationship="registro_notasModel.FK__users__id_teache__48CFD27E" FromRole="user" ToRole="teacher" />
+        </EntityType>
+        <Association Name="FK__courses__id_teac__403A8C7D">
+          <End Type="registro_notasModel.teacher" Role="teacher" Multiplicity="0..1" />
+          <End Type="registro_notasModel.cours" Role="cours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teacher">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cours">
+              <PropertyRef Name="id_teacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__notes__id_course__440B1D61">
+          <End Type="registro_notasModel.cours" Role="cours" Multiplicity="0..1" />
+          <End Type="registro_notasModel.note" Role="note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cours">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="id_course" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__notes__id_studen__4316F928">
+          <End Type="registro_notasModel.estudent" Role="estudent" Multiplicity="0..1" />
+          <End Type="registro_notasModel.note" Role="note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="estudent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="id_student" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users__id_studen__47DBAE45">
+          <End Type="registro_notasModel.estudent" Role="estudent" Multiplicity="0..1" />
+          <End Type="registro_notasModel.user" Role="user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="estudent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="id_student" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users__id_role__46E78A0C">
+          <End Type="registro_notasModel.role" Role="role" Multiplicity="0..1" />
+          <End Type="registro_notasModel.user" Role="user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__subjects__id_tea__3D5E1FD2">
+          <End Type="registro_notasModel.teacher" Role="teacher" Multiplicity="0..1" />
+          <End Type="registro_notasModel.subject" Role="subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teacher">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="subject">
+              <PropertyRef Name="id_teacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users__id_teache__48CFD27E">
+          <End Type="registro_notasModel.teacher" Role="teacher" Multiplicity="0..1" />
+          <End Type="registro_notasModel.user" Role="user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teacher">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="id_teacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="students_has_subjects">
+          <End Type="registro_notasModel.estudent" Role="estudent" Multiplicity="*" />
+          <End Type="registro_notasModel.subject" Role="subject" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="registro_notasModelStoreContainer" CdmEntityContainer="registro_notasEntities1">
+          <EntitySetMapping Name="estudents">
+            <EntityTypeMapping TypeName="registro_notasModel.estudent">
+              <MappingFragment StoreEntitySet="estudents">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="dni" ColumnName="dni" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="registro_notasModel.role">
+              <MappingFragment StoreEntitySet="roles">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="courses">
+            <EntityTypeMapping TypeName="registro_notasModel.cours">
+              <MappingFragment StoreEntitySet="courses">
+                <ScalarProperty Name="id_teacher" ColumnName="id_teacher" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notes">
+            <EntityTypeMapping TypeName="registro_notasModel.note">
+              <MappingFragment StoreEntitySet="notes">
+                <ScalarProperty Name="id_course" ColumnName="id_course" />
+                <ScalarProperty Name="id_student" ColumnName="id_student" />
+                <ScalarProperty Name="note_4" ColumnName="note_4" />
+                <ScalarProperty Name="note_3" ColumnName="note_3" />
+                <ScalarProperty Name="note_2" ColumnName="note_2" />
+                <ScalarProperty Name="note_1" ColumnName="note_1" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="subjects">
+            <EntityTypeMapping TypeName="registro_notasModel.subject">
+              <MappingFragment StoreEntitySet="subjects">
+                <ScalarProperty Name="id_teacher" ColumnName="id_teacher" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="teachers">
+            <EntityTypeMapping TypeName="registro_notasModel.teacher">
+              <MappingFragment StoreEntitySet="teachers">
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="specialty" ColumnName="specialty" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="registro_notasModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id_teacher" ColumnName="id_teacher" />
+                <ScalarProperty Name="id_student" ColumnName="id_student" />
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="students_has_subjects" TypeName="registro_notasModel.students_has_subjects" StoreEntitySet="students_has_subjects">
+            <EndProperty Name="subject">
+              <ScalarProperty Name="id" ColumnName="id_subject" />
+            </EndProperty>
+            <EndProperty Name="estudent">
+              <ScalarProperty Name="id" ColumnName="id_student" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

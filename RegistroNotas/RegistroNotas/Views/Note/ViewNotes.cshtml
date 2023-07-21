@@ -1,0 +1,213 @@
+﻿@{
+    ViewBag.Title = "Notas Estudiante";
+
+    string userName = Session["User"] as String;
+
+    //Get Session Id
+    int idUser = Convert.ToInt32(Session["Id_Student"]);
+
+    int idRol = Convert.ToInt32(Session["Role"]);
+}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="@Url.Content("~/Home/Index")">
+            Registro de Notas Estudiante
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item dropdown">
+                    <span class="nav-link">
+                        Bienvenido, @userName
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Content("~/Auth/Logout")">
+                        Cerrar Sesión
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container mt-3">
+    <div class="row">
+        <div class="col-md-3">
+            <nav id="sidebar" class="bg-light">
+                <div class="position-sticky">
+                    <div>
+                        <ul class="nav flex-column py-3 px-1">
+
+                            @if (idRol == 2)
+                            {
+                                <li class="nav-item">
+                                    <span class="nav-link text-bg-dark fw-bold">
+                                        ESTUDIANTE
+                                    </span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" style="color:black;" href="@Url.Content("~/Note/NotesEstudent")">Ver Notas</a>
+                                </li>
+                            }
+
+                            @if (idRol == 3)
+                            {
+                                <li class="nav-item">
+                                    <span class="nav-link text-bg-dark fw-bold">
+                                        DOCENTE
+                                    </span>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Agregar Notas</a>
+                                </li>
+                            }
+
+                            @if (idRol == 1)
+                            {
+                                <li class="nav-item">
+                                    <span class="nav-link text-bg-dark fw-bold">
+                                        ADMINISTRADOR
+                                    </span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Content("~/User/Index")">Usuarios</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Content("~/Teacher/Index")">Docentes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Content("~/Estudent/Index")">Estudiantes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Content("~/Subject/Index")">Materias</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Content("~/Course/Index")">Cursos</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="col-md-9">
+
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Tareas</th>
+                        <th>Laboratorios</th>
+                        <th>Pruebas</th>
+                        <th>Examenes</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.noteListViews)
+                    {
+                        <tr>
+                            <td>@item.note_1</td>
+                            <td>@item.note_2</td>
+                            <td>@item.note_3</td>
+                            <td>@item.note_4</td>
+                            <td>
+                                <button class="btn btn-warning" onclick="viewNote(@item.id)">Ver Notas</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+
+<div class="modal fade" id="viewData" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Notas del Estudiante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Tareas</th>
+                            <th scope="col">Laboratorios</th>
+                            <th scope="col">Pruebas</th>
+                            <th scope="col">Examenes</th>
+                            <th scope="col">Materia</th>
+                            <th scope="col">Docente</th>
+                            <th scope="col">Curso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="note1">Mark</td>
+                            <td id="note2">Mark</td>
+                            <td id="note3">Otto</td>
+                            <td id="note4">mdo</td>
+                            <td id="materia">Mark</td>
+                            <td id="docente">Otto</td>
+                            <td id="curso">mdo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+
+        const viewNote = (id) => {
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetNoteById", "Note")',
+                data: {
+                    id: id
+                },
+                success: function (response) {
+                    if (response.success) {
+
+                        $("#note1").html(response.data.note_1);
+                        $("#note2").html(response.data.note_2);
+                        $("#note3").html(response.data.note_3);
+                        $("#note4").html(response.data.note_4);
+                        $("#materia").html(response.subject.name);
+                        $("#docente").html(response.teacher.name + " " + response.teacher.last_name);
+                        $("#curso").html(response.course.name);
+
+                        $('#viewData').modal('show');
+                    }
+                    else {
+                        alert(response.message);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+
+        }
+    </script>
+}

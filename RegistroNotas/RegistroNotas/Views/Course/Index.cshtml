@@ -1,0 +1,311 @@
+﻿@model RegistroNotas.Models.ViewModels.CourseGeneral
+@{
+    ViewBag.Title = "Cursos";
+
+    string userName = Session["User"] as String;
+
+    int idRol = Convert.ToInt32(Session["Role"]);
+}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="@Url.Content("~/Home/Index")">
+            Registro de Notas
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item dropdown">
+                    <span class="nav-link">
+                        Bienvenido @userName
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Content("~/Auth/Logout")">
+                        Cerrar Sesion
+                        <a />
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container mt-3">
+    <div class="row">
+        <div class="col-md-3">
+            <nav id="sidebar" class="bg-light">
+                <div class="position-sticky">
+                    <div class="barralateral">
+                        <ul class="nav flex-column py-3 px-1" style="background-color:whitesmoke;">
+
+                            @if (idRol == 2)
+                            {
+                                <li class="nav-item">
+                                    <span class="nav-link text-bg-dark fw-bold">
+                                        ESTUDIANTE
+                                    </span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Ver Notas</a>
+                                </li>
+                            }
+
+                            @if (idRol == 3)
+                            {
+                                <li class="nav-item">
+                                    <span class="nav-link text-bg-dark fw-bold">
+                                        DOCENTE
+                                    </span>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Agregar Notas</a>
+                                </li>
+                            }
+
+                            @if (idRol == 1)
+                            {
+                                <li class="nav-item" style="">
+                                    <span class="nav-link text-bg-dark fw-bold">
+                                        ADMINISTRADOR
+                                    </span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" style="color:black;" href="@Url.Content("~/User/Index")">Usuarios</a>
+                                </li>                   
+                                <li class="nav-item">   
+                                    <a class="nav-link" style="color:black;" href="@Url.Content("~/Teacher/Index")">Docentes</a>
+                                </li>                   
+                                <li class="nav-item">   
+                                    <a class="nav-link" style="color:black;" href="@Url.Content("~/Estudent/Index")">Estudiantes</a>
+                                </li>                   
+                                <li class="nav-item">   
+                                    <a class="nav-link" style="color:black;" href="@Url.Content("~/Subject/Index")">Materias</a>
+                                </li>                   
+                                <li class="nav-item">   
+                                    <a class="nav-link" style="color:black;" href="@Url.Content("~/Course/Index")">Cursos</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="col-md-9">
+            <button type="button" class="btn btn-success mb-5" data-bs-toggle="modal" data-bs-target="#createCourse">
+                Agregar Nuevo Curso
+            </button>
+
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Nombre del Curso</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CourseListViews)
+                    {
+                        <tr>
+                            <td>@item.name</td>
+                            <td>
+                                <button class="btn btn-warning" onclick="viewCourse(@item.id)">Editar</button>
+                                <button class="btn btn-danger" onclick="deleteCourse(@item.id)">Eliminar</button>
+                            </td>
+                        </tr>
+                    }
+                <tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" id="updateCourse" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar el Curso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="text" class="form-control" id="id_update" hidden>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="name_update" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="name_update">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="teacher_update" class="form-label">Docente</label>
+                            <select class="form-select" id="teacher_update">
+                                <option selected value="">-----------</option>
+
+                                @foreach (var item in Model.TeacherListViews)
+                                {
+                                    <option value="@item.id">@item.name @item.last_name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" id="updateCourseBtn">Actualizar el Curso</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createCourse" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Crear Nuevo Curso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="teacher" class="form-label">Docente</label>
+                            <select class="form-select" id="teacher">
+                                <option selected value="">-----------</option>
+
+                                @foreach (var item in Model.TeacherListViews)
+                                {
+                                    <option value="@item.id">@item.name @item.last_name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" id="saveCourseBtn">Guardar el Curso</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+
+            $('#updateCourseBtn').on('click', function () {
+                let id = $('#id_update').val();
+                let name = $('#name_update').val();
+                let teacher = $('#teacher_update').val();
+
+                $.ajax({
+                    url: '@Url.Content("~/Course/UpdateCourse")',
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        name: name,
+                        id_teacher: teacher
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+            $('#saveCourseBtn').on('click', function () {
+                let name = $('#name').val();
+                let teacher = $('#teacher').val();
+
+                $.ajax({
+                    url: '@Url.Content("~/Course/CreateCourse")',
+                    type: 'POST',
+                    data: {
+                        name: name,
+                        id_teacher: teacher
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+
+        const viewCourse = (id) => {
+            $.ajax({
+                url: '@Url.Content("~/Course/GetCourse")',
+                type: 'POST',
+                data: {
+                    id: id
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $('#id_update').val(response.data.id);
+                        $('#name_update').val(response.data.name);
+                        $('#teacher_update').val(response.data.id_teacher);
+
+                        $('#updateCourse').modal('show');
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        };
+
+        const deleteCourse = (id) => {
+            let confirmation = confirm("¿Estás seguro de eliminar este curso?");
+            if (confirmation) {
+                $.ajax({
+                    url: '@Url.Content("~/Course/DeleteCourse")',
+                    type: 'POST',
+                    data: {
+                        id: id
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+        };
+    </script>
+}

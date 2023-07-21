@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="registro_notasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="courses">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" />
+    <Property Name="id_teacher" Type="int" />
+  </EntityType>
+  <EntityType Name="estudents">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" />
+    <Property Name="last_name" Type="varchar" MaxLength="50" />
+    <Property Name="dni" Type="varchar" MaxLength="50" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="notes">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="note_1" Type="decimal" Precision="5" Scale="2" />
+    <Property Name="note_2" Type="decimal" Precision="5" Scale="2" />
+    <Property Name="note_3" Type="decimal" Precision="5" Scale="2" />
+    <Property Name="note_4" Type="decimal" Precision="5" Scale="2" />
+    <Property Name="id_student" Type="int" />
+    <Property Name="id_course" Type="int" />
+  </EntityType>
+  <EntityType Name="roles">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="students_has_subjects">
+    <Key>
+      <PropertyRef Name="id_student" />
+      <PropertyRef Name="id_subject" />
+    </Key>
+    <Property Name="id_student" Type="int" Nullable="false" />
+    <Property Name="id_subject" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="subjects">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" />
+    <Property Name="description" Type="varchar" MaxLength="100" />
+    <Property Name="id_teacher" Type="int" />
+  </EntityType>
+  <EntityType Name="teachers">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" />
+    <Property Name="last_name" Type="varchar" MaxLength="50" />
+    <Property Name="specialty" Type="varchar" MaxLength="50" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+    <Property Name="id_role" Type="int" />
+    <Property Name="id_student" Type="int" />
+    <Property Name="id_teacher" Type="int" />
+  </EntityType>
+  <Association Name="FK__courses__id_teac__403A8C7D">
+    <End Role="teachers" Type="Self.teachers" Multiplicity="0..1" />
+    <End Role="courses" Type="Self.courses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="teachers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="courses">
+        <PropertyRef Name="id_teacher" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__notes__id_course__440B1D61">
+    <End Role="courses" Type="Self.courses" Multiplicity="0..1" />
+    <End Role="notes" Type="Self.notes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="courses">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="notes">
+        <PropertyRef Name="id_course" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__notes__id_studen__4316F928">
+    <End Role="estudents" Type="Self.estudents" Multiplicity="0..1" />
+    <End Role="notes" Type="Self.notes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="estudents">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="notes">
+        <PropertyRef Name="id_student" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__students___id_st__4BAC3F29">
+    <End Role="estudents" Type="Self.estudents" Multiplicity="1" />
+    <End Role="students_has_subjects" Type="Self.students_has_subjects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="estudents">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="students_has_subjects">
+        <PropertyRef Name="id_student" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__students___id_su__4CA06362">
+    <End Role="subjects" Type="Self.subjects" Multiplicity="1" />
+    <End Role="students_has_subjects" Type="Self.students_has_subjects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="subjects">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="students_has_subjects">
+        <PropertyRef Name="id_subject" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__subjects__id_tea__3D5E1FD2">
+    <End Role="teachers" Type="Self.teachers" Multiplicity="0..1" />
+    <End Role="subjects" Type="Self.subjects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="teachers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="subjects">
+        <PropertyRef Name="id_teacher" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__users__id_role__46E78A0C">
+    <End Role="roles" Type="Self.roles" Multiplicity="0..1" />
+    <End Role="users" Type="Self.users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="roles">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="id_role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__users__id_studen__47DBAE45">
+    <End Role="estudents" Type="Self.estudents" Multiplicity="0..1" />
+    <End Role="users" Type="Self.users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="estudents">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="id_student" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__users__id_teache__48CFD27E">
+    <End Role="teachers" Type="Self.teachers" Multiplicity="0..1" />
+    <End Role="users" Type="Self.users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="teachers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="id_teacher" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="registro_notasModelStoreContainer">
+    <EntitySet Name="courses" EntityType="Self.courses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="estudents" EntityType="Self.estudents" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="notes" EntityType="Self.notes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="students_has_subjects" EntityType="Self.students_has_subjects" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="subjects" EntityType="Self.subjects" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="teachers" EntityType="Self.teachers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__courses__id_teac__403A8C7D" Association="Self.FK__courses__id_teac__403A8C7D">
+      <End Role="teachers" EntitySet="teachers" />
+      <End Role="courses" EntitySet="courses" />
+    </AssociationSet>
+    <AssociationSet Name="FK__notes__id_course__440B1D61" Association="Self.FK__notes__id_course__440B1D61">
+      <End Role="courses" EntitySet="courses" />
+      <End Role="notes" EntitySet="notes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__notes__id_studen__4316F928" Association="Self.FK__notes__id_studen__4316F928">
+      <End Role="estudents" EntitySet="estudents" />
+      <End Role="notes" EntitySet="notes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__students___id_st__4BAC3F29" Association="Self.FK__students___id_st__4BAC3F29">
+      <End Role="estudents" EntitySet="estudents" />
+      <End Role="students_has_subjects" EntitySet="students_has_subjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK__students___id_su__4CA06362" Association="Self.FK__students___id_su__4CA06362">
+      <End Role="subjects" EntitySet="subjects" />
+      <End Role="students_has_subjects" EntitySet="students_has_subjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK__subjects__id_tea__3D5E1FD2" Association="Self.FK__subjects__id_tea__3D5E1FD2">
+      <End Role="teachers" EntitySet="teachers" />
+      <End Role="subjects" EntitySet="subjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK__users__id_role__46E78A0C" Association="Self.FK__users__id_role__46E78A0C">
+      <End Role="roles" EntitySet="roles" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="FK__users__id_studen__47DBAE45" Association="Self.FK__users__id_studen__47DBAE45">
+      <End Role="estudents" EntitySet="estudents" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="FK__users__id_teache__48CFD27E" Association="Self.FK__users__id_teache__48CFD27E">
+      <End Role="teachers" EntitySet="teachers" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

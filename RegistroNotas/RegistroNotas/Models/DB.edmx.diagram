@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2703f3f3a7ce46a8a6a31f48811b46ec" Name="Diagram1">
+        <EntityTypeShape EntityType="registro_notasModel.estudent" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="registro_notasModel.role" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="registro_notasModel.cours" Width="1.5" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="registro_notasModel.note" Width="1.5" PointX="6" PointY="5.375" />
+        <EntityTypeShape EntityType="registro_notasModel.subject" Width="1.5" PointX="3" PointY="7.625" />
+        <EntityTypeShape EntityType="registro_notasModel.teacher" Width="1.5" PointX="0.75" PointY="10.25" />
+        <EntityTypeShape EntityType="registro_notasModel.user" Width="1.5" PointX="3" PointY="4.125" />
+        <AssociationConnector Association="registro_notasModel.FK__courses__id_teac__403A8C7D" />
+        <AssociationConnector Association="registro_notasModel.FK__notes__id_course__440B1D61" />
+        <AssociationConnector Association="registro_notasModel.FK__notes__id_studen__4316F928" />
+        <AssociationConnector Association="registro_notasModel.FK__users__id_studen__47DBAE45" />
+        <AssociationConnector Association="registro_notasModel.FK__users__id_role__46E78A0C" />
+        <AssociationConnector Association="registro_notasModel.FK__subjects__id_tea__3D5E1FD2" />
+        <AssociationConnector Association="registro_notasModel.FK__users__id_teache__48CFD27E" />
+        <AssociationConnector Association="registro_notasModel.students_has_subjects" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
