@@ -1,5 +1,4 @@
-Create Database registro_notas;
-
+CREATE DATABASE registro_notas;
 USE registro_notas;
 
 CREATE TABLE roles (
@@ -80,25 +79,24 @@ INSERT INTO roles (name) VALUES ('docente');
 SELECT * FROM roles
 
 -- Agregar usuario administrador
-INSERT INTO Users (name, password, id_role) VALUES ('Administrador', 'contrase�a_admin', (SELECT id FROM Roles WHERE name = 'administrador'));
+INSERT INTO Users (name, password, id_role) VALUES ('Administrador', 'Administrador', (SELECT id FROM Roles WHERE name = 'administrador'));
 
 -- Agregar estudiante
-INSERT INTO Users (name, password, id_role) VALUES ('Estudiante', 'contrase�a_estudiante', (SELECT id FROM Roles WHERE name = 'estudiante'));
+INSERT INTO Users (name, password, id_role) VALUES ('Estudiante', 'Estudiante', (SELECT id FROM Roles WHERE name = 'estudiante'));
 
 -- Agregar profesor
-INSERT INTO Users (name, password, id_role) VALUES ('Profesor', 'contrase�a_profesor', (SELECT id FROM Roles WHERE name = 'docente'));
+INSERT INTO Users (name, password, id_role) VALUES ('Profesor', 'Profesor', (SELECT id FROM Roles WHERE name = 'docente'));
 
 SELECT * FROM users
 
 -- Insertar datos en Teachers
 INSERT INTO teachers (name, last_name, specialty, email) VALUES
-('Mariela', 'Rosales', 'Matematicas', 'juan.perez@example.com'),
-('Gaby', 'Perez', 'Historia', 'maria.gonzalez@example.com'),
-('Pedro', 'Fomez', 'Fisica', 'pedro.sanchez@example.com');
+('Lucy', 'Mosquera', 'Desarrollo Web', 'lucymosquera@example.com'),
+('Steveen', 'Sinchiguano', 'Aplicaciones Web', 'steveensinchiguano@example.com');
+
 
 -- Insertar datos en Estudents
 INSERT INTO Estudents (name, last_name, dni, email) VALUES
-('Ana', 'Lopez', '2350081010', 'ana.lopez@example.com'),
-('Luis', 'Garcia', '2350081010', 'luis.garcia@example.com'),
-('Maria', 'Martinez', '2350081010', 'maria.martinez@example.com');
-
+('Mercy', 'Arrobo', '1234567890', 'mercyarrobo@example.com'),
+('Noelia', 'Anchundia', '1234567890', 'noeliaanchundia@example.com'),
+('Fernando', 'Masache', '1234567890', 'fernandomasache@example.com');
