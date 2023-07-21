@@ -101,3 +101,7 @@ C:\Users\stevss\Downloads\ProyectoU2_DesarrolloWeb\RegistroNotas\RegistroNotas\o
 C:\Users\stevss\Downloads\ProyectoU2_DesarrolloWeb\RegistroNotas\RegistroNotas\obj\Debug\RegistroNotas.csproj.CoreCompileInputs.cache
 C:\Users\stevss\Downloads\ProyectoU2_DesarrolloWeb\RegistroNotas\RegistroNotas\obj\Debug\RegistroNotas.dll
 C:\Users\stevss\Downloads\ProyectoU2_DesarrolloWeb\RegistroNotas\RegistroNotas\obj\Debug\RegistroNotas.pdb
+C:\Users\gulna\Source\Repos\ProyectoU2_DesarrolloWeb\RegistroNotas\RegistroNotas\obj\Debug\RegistroNotas.csproj.AssemblyReference.cache
+C:\Users\gulna\Source\Repos\ProyectoU2_DesarrolloWeb\RegistroNotas\RegistroNotas\obj\Debug\RegistroNotas.csproj.CoreCompileInputs.cache
+C:\Users\gulna\Source\Repos\ProyectoU2_DesarrolloWeb\RegistroNotas\RegistroNotas\obj\Debug\RegistroNotas.dll
+C:\Users\gulna\Source\Repos\ProyectoU2_DesarrolloWeb\RegistroNotas\RegistroNotas\obj\Debug\RegistroNotas.pdb
