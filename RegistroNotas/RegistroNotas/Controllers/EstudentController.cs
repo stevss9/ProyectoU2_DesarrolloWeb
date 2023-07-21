@@ -13,7 +13,7 @@ namespace RegistroNotas.Controllers
         // Método que muestra la lista de estudiantes
         public ActionResult Index()
         {
-            // Comprueba si el usuario ha iniciado sesión
+            // Comprobar si el usuario ha iniciado sesión
             if ((Session["State"] != null && Session["State"].ToString() == "Logged"))
             {
                 using (registro_notasEntities1 db = new registro_notasEntities1())
