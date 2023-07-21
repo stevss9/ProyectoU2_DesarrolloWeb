@@ -27,7 +27,7 @@ namespace RegistroNotas.Controllers
 
                 using (registro_notasEntities1 db = new registro_notasEntities1())
                 {
-                    // Obtiene la lista de notas del estudiante desde la base de datos
+                    // Obtiene la lista de notas del estudiante desde base de datos 
                     List<NoteListView> stNotes = (from d in db.notes
                                                   where d.id_student == id
                                                   select new NoteListView
