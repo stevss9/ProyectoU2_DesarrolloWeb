@@ -34,7 +34,7 @@ namespace RegistroNotas.Controllers
                 }
             }
 
-            // Si el usuario no ha iniciado sesión, redirige al formulario de inicio de sesión (Auth/Login)
+            // Si el usuario no ha iniciado sesión, se redirige al formulario de inicio de sesión (Auth/Login)
             return RedirectToAction("Login", "Auth");
         }
 
