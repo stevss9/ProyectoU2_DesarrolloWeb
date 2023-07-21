@@ -7,7 +7,7 @@ namespace RegistroNotas.Controllers
 {
     public class AuthController : Controller
     {
-        // Método que maneja la solicitud inicial de la página de inicio de sesión
+        // Aqui creamo el método que maneja la solicitud inicial de la página de inicio de sesión
         public ActionResult Login()
         {
             // Si el usuario ya ha iniciado sesión (determinado por Session["State"]),
