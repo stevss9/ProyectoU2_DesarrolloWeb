@@ -1,3 +1,5 @@
+Create Database registro_notas;
+
 USE registro_notas;
 
 CREATE TABLE roles (
@@ -78,25 +80,25 @@ INSERT INTO roles (name) VALUES ('docente');
 SELECT * FROM roles
 
 -- Agregar usuario administrador
-INSERT INTO Users (name, password, id_role) VALUES ('Administrador', 'contraseña_admin', (SELECT id FROM Roles WHERE name = 'administrador'));
+INSERT INTO Users (name, password, id_role) VALUES ('Administrador', 'contraseï¿½a_admin', (SELECT id FROM Roles WHERE name = 'administrador'));
 
 -- Agregar estudiante
-INSERT INTO Users (name, password, id_role) VALUES ('Estudiante', 'contraseña_estudiante', (SELECT id FROM Roles WHERE name = 'estudiante'));
+INSERT INTO Users (name, password, id_role) VALUES ('Estudiante', 'contraseï¿½a_estudiante', (SELECT id FROM Roles WHERE name = 'estudiante'));
 
 -- Agregar profesor
-INSERT INTO Users (name, password, id_role) VALUES ('Profesor', 'contraseña_profesor', (SELECT id FROM Roles WHERE name = 'docente'));
+INSERT INTO Users (name, password, id_role) VALUES ('Profesor', 'contraseï¿½a_profesor', (SELECT id FROM Roles WHERE name = 'docente'));
 
 SELECT * FROM users
 
 -- Insertar datos en Teachers
 INSERT INTO teachers (name, last_name, specialty, email) VALUES
-('Juan', 'Pérez', 'Matemáticas', 'juan.perez@example.com'),
-('María', 'González', 'Historia', 'maria.gonzalez@example.com'),
-('Pedro', 'Sánchez', 'Física', 'pedro.sanchez@example.com');
+('Mariela', 'Rosales', 'Matematicas', 'juan.perez@example.com'),
+('Gaby', 'Perez', 'Historia', 'maria.gonzalez@example.com'),
+('Pedro', 'Fomez', 'Fisica', 'pedro.sanchez@example.com');
 
 -- Insertar datos en Estudents
 INSERT INTO Estudents (name, last_name, dni, email) VALUES
-('Ana', 'López', '12345678A', 'ana.lopez@example.com'),
-('Luis', 'García', '87654321B', 'luis.garcia@example.com'),
-('María', 'Martínez', '56789012C', 'maria.martinez@example.com');
+('Ana', 'Lopez', '2350081010', 'ana.lopez@example.com'),
+('Luis', 'Garcia', '2350081010', 'luis.garcia@example.com'),
+('Maria', 'Martinez', '2350081010', 'maria.martinez@example.com');
 
