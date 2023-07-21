@@ -18,7 +18,7 @@ namespace RegistroNotas.Controllers
             {
                 using (registro_notasEntities1 db = new registro_notasEntities1())
                 {
-                    // Obtiene la lista de profesores y la lista de cursos desde la base de datos
+                    // Obtiene la lista de profesores desde la base de datos
                     List<TeacherListView> lstTeachers = (from d in db.teachers
                                                          select new TeacherListView
                                                          {
@@ -28,7 +28,7 @@ namespace RegistroNotas.Controllers
                                                              specialty = d.specialty,
                                                              email = d.email
                                                          }).ToList();
-
+                    // Obtiene la lista de cursos desde la base de datos
                     List<CourseListView> lstCourses = (from d in db.cours
                                                        select new CourseListView
                                                        {
