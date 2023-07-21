@@ -80,12 +80,15 @@ SELECT * FROM roles
 
 -- Agregar usuario administrador
 INSERT INTO Users (name, password, id_role) VALUES ('Administrador', 'Administrador', (SELECT id FROM Roles WHERE name = 'administrador'));
+INSERT INTO Users (name, password, id_role) VALUES ('Jostyn', 'Jostyn', (SELECT id FROM Roles WHERE name = 'administrador'));
 
 -- Agregar estudiante
 INSERT INTO Users (name, password, id_role) VALUES ('Estudiante', 'Estudiante', (SELECT id FROM Roles WHERE name = 'estudiante'));
+INSERT INTO Users (name, password, id_role) VALUES ('Jose', 'Jose', (SELECT id FROM Roles WHERE name = 'estudiante'));
 
 -- Agregar profesor
 INSERT INTO Users (name, password, id_role) VALUES ('Profesor', 'Profesor', (SELECT id FROM Roles WHERE name = 'docente'));
+INSERT INTO Users (name, password, id_role) VALUES ('Mikaela', 'Mikaela', (SELECT id FROM Roles WHERE name = 'docente'));
 
 SELECT * FROM users
 
@@ -100,3 +103,4 @@ INSERT INTO Estudents (name, last_name, dni, email) VALUES
 ('Mercy', 'Arrobo', '1234567890', 'mercyarrobo@example.com'),
 ('Noelia', 'Anchundia', '1234567890', 'noeliaanchundia@example.com'),
 ('Fernando', 'Masache', '1234567890', 'fernandomasache@example.com');
+
