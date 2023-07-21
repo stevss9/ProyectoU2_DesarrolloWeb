@@ -136,7 +136,7 @@ namespace RegistroNotas.Controllers
                 return RedirectToAction("Login", "Auth");
             }
 
-            // Verifica si el usuario tiene el rol de administrador (rol "1") para permitir la actualización de estudiantes
+            // Verifica si el usuario tiene el rol de administrador (rol "1") para permitir la actualización de estudiante ingresado
             if (Session["Role"] == null || Session["Role"].ToString() != "1")
             {
                 // Si el usuario no tiene el rol de administrador, redirige a la página de inicio (Home)
