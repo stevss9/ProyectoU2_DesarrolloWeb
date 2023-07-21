@@ -1,4 +1,5 @@
-﻿using System;
+//importar las librerias
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,7 @@ namespace RegistroNotas.Controllers
 {
     public class EstudentController : Controller
     {
-        // Método que muestra la lista de estudiantes
+        // Método que muestra  lista de estudiantes
         public ActionResult Index()
         {
             // Comprobar si el usuario ha iniciado sesión
@@ -34,11 +35,11 @@ namespace RegistroNotas.Controllers
                 }
             }
 
-            // Si el usuario no ha iniciado sesión, redirige al formulario de inicio de sesión (Auth/Login)
+            // Si el usuario no ha iniciado sesión, se redirige al formulario de inicio de sesión (Auth/Login)
             return RedirectToAction("Login", "Auth");
         }
 
-        // Método que crea un nuevo estudiante mediante una solicitud POST
+        // Método que crea un nuevo estudiante mediante una solicitud que envia al metodo POST
         [HttpPost]
         public ActionResult CreateEstudent(EstudentListView estudentListView)
         {
@@ -135,7 +136,7 @@ namespace RegistroNotas.Controllers
                 return RedirectToAction("Login", "Auth");
             }
 
-            // Verifica si el usuario tiene el rol de administrador (rol "1") para permitir la actualización de estudiantes
+            // Verifica si el usuario tiene el rol de administrador (rol "1") para permitir la actualización de estudiante ingresado
             if (Session["Role"] == null || Session["Role"].ToString() != "1")
             {
                 // Si el usuario no tiene el rol de administrador, redirige a la página de inicio (Home)
