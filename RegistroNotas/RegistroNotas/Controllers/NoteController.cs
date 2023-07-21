@@ -16,7 +16,7 @@ namespace RegistroNotas.Controllers
             return View();
         }
 
-        // Método que muestra las notas de un estudiante específico
+        // Método que muestra las notas de un estudiante en específico
         public ActionResult NotesEstudent()
         {
             // Comprueba si el usuario ha iniciado sesión
