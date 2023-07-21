@@ -11,7 +11,7 @@ namespace RegistroNotas.Controllers
         // Método que muestra la vista principal del sitio web (página de inicio)
         public ActionResult Index()
         {
-            // Comprueba si el usuario ha iniciado sesión
+            // Comprueba si el usuario ha iniciado sesión 
             if ((Session["State"] != null && Session["State"].ToString() == "Logged"))
             {
                 // Si el usuario ha iniciado sesión, muestra la vista principal del sitio web (View)
