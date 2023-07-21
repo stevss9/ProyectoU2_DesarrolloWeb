@@ -42,7 +42,7 @@
                 <div class="position-sticky">
                     <div class="barralateral">
                         <ul class="nav flex-column py-3 px-1" style="background-color:whitesmoke;">
-
+                            
                             @if (idRol == 2)
                             {
                                 <li class="nav-item">
@@ -77,21 +77,17 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" style="color:black;" href="@Url.Content("~/User/Index")">Usuarios</a>
-                                </li>
-
-                                <li class="nav-item">
+                                </li>                   
+                                <li class="nav-item">   
                                     <a class="nav-link" style="color:black;" href="@Url.Content("~/Teacher/Index")">Docentes</a>
-                                </li>
-
-                                <li class="nav-item">
+                                </li>                   
+                                <li class="nav-item">   
                                     <a class="nav-link" style="color:black;" href="@Url.Content("~/Estudent/Index")">Estudiantes</a>
-                                </li>
-
-                                <li class="nav-item">
+                                </li>                   
+                                <li class="nav-item">   
                                     <a class="nav-link" style="color:black;" href="@Url.Content("~/Subject/Index")">Materias</a>
-                                </li>
-
-                                <li class="nav-item">
+                                </li>                   
+                                <li class="nav-item">   
                                     <a class="nav-link" style="color:black;" href="@Url.Content("~/Course/Index")">Cursos</a>
                                 </li>
                             }
@@ -101,12 +97,10 @@
             </nav>
         </div>
         <div class="col-md-9">
-            <!-- Botón para abrir el modal de crear un nuevo curso -->
             <button type="button" class="btn btn-success mb-5" data-bs-toggle="modal" data-bs-target="#createCourse">
                 Agregar Nuevo Curso
             </button>
 
-            <!-- Tabla para mostrar los cursos existentes -->
             <table id="example" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
@@ -116,34 +110,99 @@
                 </thead>
                 <tbody>
                     @* Recorre el modelo de la lista de cursos y muestra todos los cursos que fueron creados *@
+
                     @foreach (var item in Model.CourseListViews)
                     {
                         <tr>
                             <td>@item.name</td>
                             <td>
-                                <!-- Botón para editar un curso -->
                                 <button class="btn btn-warning" onclick="viewCourse(@item.id)">Editar</button>
-                                <!-- Botón para eliminar un curso -->
                                 <button class="btn btn-danger" onclick="deleteCourse(@item.id)">Eliminar</button>
                             </td>
                         </tr>
                     }
-                </tbody>
+<tbody>
             </table>
         </div>
     </div>
 </main>
 
-<!-- Modal para editar un curso existente -->
 <div class="modal fade" id="updateCourse" tabindex="-1" aria-hidden="true">
-    <!-- Contenido del modal omitido por brevedad -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar el Curso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="text" class="form-control" id="id_update" hidden>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="name_update" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="name_update">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="teacher_update" class="form-label">Docente</label>
+                            <select class="form-select" id="teacher_update">
+                                <option selected value="">-----------</option>
+
+                                @foreach (var item in Model.TeacherListViews)
+                                {
+                                    <option value="@item.id">@item.name @item.last_name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" id="updateCourseBtn">Actualizar el Curso</button>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- Modal para crear un nuevo curso -->
 <div class="modal fade" id="createCourse" tabindex="-1" aria-hidden="true">
-    <!-- Contenido del modal omitido por brevedad -->
-</div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Crear Nuevo Curso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="teacher" class="form-label">Docente</label>
+                            <select class="form-select" id="teacher">
+                                <option selected value="">-----------</option>
 
+                                @foreach (var item in Model.TeacherListViews)
+                                {
+                                    <option value="@item.id">@item.name @item.last_name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" id="saveCourseBtn">Guardar el Curso</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section scripts{
     <script>
