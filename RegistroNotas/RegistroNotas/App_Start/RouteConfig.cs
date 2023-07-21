@@ -11,6 +11,8 @@ namespace RegistroNotas
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+
+            //Mapeo de rutas
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
