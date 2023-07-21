@@ -16,7 +16,7 @@ namespace RegistroNotas.Controllers
             // Verifica si el usuario ha iniciado sesión (estado "Logged").
             if ((Session["State"] != null && Session["State"].ToString() == "Logged"))
             {
-                // Utiliza "using" para asegurar que se liberan los recursos correctamente después de la operación.
+                // Utiliza "using" para asegurar la liberación de los recursos correctamente después de la operación.
                 using (registro_notasEntities1 db = new registro_notasEntities1())
                 {
                     // Obtiene la lista de profesores desde la base de datos y la convierte en una lista de TeacherListView.
