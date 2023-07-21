@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace RegistroNotas.Controllers
 {
+    //Controlador que llama a la bd
     public class RoleController : Controller
     {
         // GET: Role
