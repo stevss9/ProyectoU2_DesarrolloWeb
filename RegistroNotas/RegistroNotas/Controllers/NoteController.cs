@@ -348,6 +348,7 @@ namespace RegistroNotas.Controllers
 
             try
             {
+                //Hace un llamado al entity framework de la base de datos
                 using (registro_notasEntities1 db = new registro_notasEntities1())
                 {
                     // Busca la nota por su ID en la base de datos
