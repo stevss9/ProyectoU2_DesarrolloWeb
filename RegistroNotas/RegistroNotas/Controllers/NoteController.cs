@@ -22,7 +22,7 @@ namespace RegistroNotas.Controllers
             // Comprueba si el usuario ha iniciado sesión
             if ((Session["State"] != null && Session["State"].ToString() == "Logged"))
             {
-                // Obtiene el ID del estudiante desde la sesión
+                // Obtiene el ID del estudiante desde la sesión que ha iniciado
                 int id = Convert.ToInt32(Session["Id_Student"]);
 
                 using (registro_notasEntities1 db = new registro_notasEntities1())
