@@ -13,7 +13,7 @@ namespace RegistroNotas.Controllers
         // Acción que muestra la página principal de administración de cursos/asignaturas.
         public ActionResult Index()
         {
-            // Verifica si el usuario ha iniciado sesión (estado "Logged").
+            // Verifica si el usuario ha iniciado sesión es decir que se haya logeado
             if ((Session["State"] != null && Session["State"].ToString() == "Logged"))
             {
                 // Utiliza "using" para asegurar que se liberan los recursos correctamente después de la operación.
