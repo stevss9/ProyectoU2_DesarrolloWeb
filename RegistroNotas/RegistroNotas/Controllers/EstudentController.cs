@@ -11,7 +11,7 @@ namespace RegistroNotas.Controllers
 {
     public class EstudentController : Controller
     {
-        // Método que muestra la lista de estudiantes
+        // Método que muestra  lista de estudiantes
         public ActionResult Index()
         {
             // Comprobar si el usuario ha iniciado sesión
@@ -39,7 +39,7 @@ namespace RegistroNotas.Controllers
             return RedirectToAction("Login", "Auth");
         }
 
-        // Método que crea un nuevo estudiante mediante una solicitud POST
+        // Método que crea un nuevo estudiante mediante una solicitud que envia al metodo POST
         [HttpPost]
         public ActionResult CreateEstudent(EstudentListView estudentListView)
         {
